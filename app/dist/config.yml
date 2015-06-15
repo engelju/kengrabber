@@ -1,0 +1,7 @@
+youtube_api_key: YOUR_API_KEY
+youtube_channel_username: wwwkenfmde
+youtube_queries:
+  - KenFM im Gespräch
+
+# All urls are pointing here in the rss feed.
+web_url: http://example.org/
