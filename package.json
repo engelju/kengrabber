@@ -1,0 +1,38 @@
+{
+  "name": "kengrabber",
+  "version": "1.0.0",
+  "description": "A tool for grabbing a youtube channel and making a podcast out of it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "youtube",
+    "podcast"
+  ],
+  "author": "Simon Erhardt <me@rootlogin.ch>",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "gulp": "~3.9",
+    "gulp-autoprefixer": "~1.0",
+    "gulp-bower": "~0.0",
+    "gulp-cache": "~0.2",
+    "gulp-clean": "~0.3",
+    "gulp-concat": "~2.4",
+    "gulp-imagemin": "~1.2",
+    "gulp-livereload": "~2.1",
+    "gulp-minify-css": "~0.3",
+    "gulp-notify": "~2.0",
+    "gulp-rename": "~1.2",
+    "gulp-uglify": "~1.0",
+    "gulp-util": "~3.0",
+    "gulp-watch": "~1.1",
+    "gulp-less": "~3.0"
+  },
+  "dependencies": {
+    "gulp-minify-css": "^1.1.6",
+    "gulp-run": "^1.6.8",
+    "less-plugin-autoprefix": "^1.4.2",
+    "less-plugin-clean-css": "^1.5.0"
+  }
+}

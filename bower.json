@@ -1,0 +1,33 @@
+{
+  "name": "kengrabber",
+  "version": "1.0.0",
+  "authors": [
+    "Simon Erhardt <me@rootlogin.ch>"
+  ],
+  "description": "A tool for grabbing a youtube channel and making a podcast out of it.",
+  "main": "kengrabber.phar",
+  "keywords": [
+    "youtube",
+    "podcast"
+  ],
+  "license": "GPL-3.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "devDependencies": {
+    "jquery": "~2.1",
+    "angular": "~1.3",
+    "angular-route": "~1.3",
+    "angular-audio": "~1.6",
+    "bootstrap": "~3.3",
+    "angular-ui-bootstrap-bower": "~0.13.0"
+  },
+  "resolutions": {
+    "angular": "~1.3"
+  }
+}

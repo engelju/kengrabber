@@ -1,0 +1,12 @@
+{
+  "algorithm": "SHA512",
+  "banner": "2015 by Simon Erhardt <me@rootlogin.ch>",
+  "compression": "NONE",
+  "directories" :[
+    "app",
+    "src",
+    "vendor"
+  ],
+  "output": "kengrabber.phar",
+  "stub": "stub.php"
+}

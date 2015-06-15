@@ -1,0 +1,17 @@
+{
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "cilex/cilex": "~1.1",
+    "suin/php-rss-writer": "~1.0",
+    "norkunas/youtube-dl-php": "~0.1",
+    "madcoda/php-youtube-api": "~1.1",
+    "symfony/yaml": "~2.7",
+    "doctrine/dbal": "~2.5",
+    "monolog/monolog": "~1.13",
+    "symfony/filesystem": "^2.7"
+  }
+}
