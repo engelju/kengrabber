@@ -145,7 +145,7 @@ class RenderCommand extends Command
 
         $json = json_encode($channel);
         if(!$json) {
-            $msg = sprintf("Error generating JSON file: %s", json_last_error_msg());
+            $msg = sprintf("Error generating channel.json: %s", json_last_error_msg());
             $this->kg['monolog']->addError($msg);
             return;
         }
