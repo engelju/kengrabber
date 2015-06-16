@@ -40,16 +40,16 @@ class VideoWrapper {
 
     public function getVideos()
     {
-        $stmt = $this->db->prepare("SELECT id, title, description, published, downloaded FROM videos");
+        $stmt = $this->db->prepare("SELECT id, title, description, published, downloaded FROM videos ORDER BY published DESC");
         $stmt->execute();
         $results = $stmt->fetchAll();
 
         $videos = array();
         foreach($results as $res) {
             $video = new Video();
-            $video->setId($res['id']);
-            $video->setTitle($res['title']);
-            $video->setDescription($res['description']);
+            $video->setId($this->utf8ize($res['id']));
+            $video->setTitle($this->utf8ize($res['title']));
+            $video->setDescription($this->utf8ize($res['description']));
             $video->setPublished(new \DateTime($res['published']));
             $video->setDownloaded((bool) $res['downloaded']);
 
@@ -68,9 +68,9 @@ class VideoWrapper {
         $videos = array();
         foreach($results as $res) {
             $video = new Video();
-            $video->setId($res['id']);
-            $video->setTitle($res['title']);
-            $video->setDescription($res['description']);
+            $video->setId($this->utf8ize($res['id']));
+            $video->setTitle($this->utf8ize($res['title']));
+            $video->setDescription($this->utf8ize($res['description']));
             $video->setPublished(new \DateTime($res['published']));
             $video->setDownloaded((bool) $res['downloaded']);
 
@@ -88,9 +88,9 @@ class VideoWrapper {
 
         if($res = $stmt->fetch()) {
             $video = new Video();
-            $video->setId($res['id']);
-            $video->setTitle($res['title']);
-            $video->setDescription($res['description']);
+            $video->setId($this->utf8ize($res['id']));
+            $video->setTitle($this->utf8ize($res['title']));
+            $video->setDescription($this->utf8ize($res['description']));
             $video->setPublished(new \DateTime($res['published']));
             $video->setDownloaded((bool) $res['downloaded']);
             return $video;
@@ -108,9 +108,9 @@ class VideoWrapper {
             $stmt = $this->db->prepare("UPDATE videos SET title = :title, description = :desc, published = :published, downloaded = :downloaded WHERE id IS :id");
         }
 
-        $stmt->bindParam("id", $video->getId(), \PDO::PARAM_STR);
-        $stmt->bindParam("title", $video->getTitle(), \PDO::PARAM_STR);
-        $stmt->bindParam("desc", $video->getDescription(), \PDO::PARAM_STR);
+        $stmt->bindParam("id", $this->utf8ize($video->getId()), \PDO::PARAM_STR);
+        $stmt->bindParam("title", $this->utf8ize($video->getTitle()), \PDO::PARAM_STR);
+        $stmt->bindParam("desc", $this->utf8ize($video->getDescription()), \PDO::PARAM_STR);
         $stmt->bindParam("published", $video->getPublished()->format("Y-m-d H:i:s"), \PDO::PARAM_STR);
         $downloaded = ($video->getDownloaded() == true ? 1 : 0);
         $stmt->bindParam("downloaded", $downloaded, \PDO::PARAM_INT);
@@ -123,5 +123,10 @@ class VideoWrapper {
         $stmt->bindParam("id", $video->getId());
         $stmt->execute();
         $this->db->commit();
+    }
+
+    protected function utf8ize($s)
+    {
+        return mb_convert_encoding($s, "UTF-8", "auto");
     }
 }

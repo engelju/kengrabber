@@ -37,8 +37,8 @@ class VerifyCommand extends Command
         /** @var Kengrabber $kg */
         $kg = $this->getApplication()->getContainer();
 
-        $output->writeln("Cleaning up...");
-        $kg['monolog']->addInfo("START Cleaning up...");
+        $output->writeln("Verifying files...");
+        $kg['monolog']->addInfo("START Verifying files...");
 
         $videos = $kg['video']->getVideos();
         foreach($videos as $video) {
@@ -54,7 +54,7 @@ class VerifyCommand extends Command
             $kg['video']->saveVideo($video);
         }
 
-        $kg['monolog']->addInfo("END Cleaning up...");
-        $output->writeln("<info>Finished cleaning up...</info>");
+        $kg['monolog']->addInfo("END Verifying files...");
+        $output->writeln("<info>Finished verifying files...</info>");
     }
 }
