@@ -42,12 +42,19 @@
         </div><!-- /.container-fluid -->
     </nav>
     <div id="container" class="container" ng-view>
+        <noscript>
+            <p>THIS PAGE NEEDS JAVASCRIPT TO WORK!</p>
+        </noscript>
         <p>Loading...</p>
     </div>
     <footer>
         <div class="container">
             <div class="row">
-
+                <div class="col-md-12">
+                    <p class="text-center">
+                        <small>Generated with <a href="https://github.com/chrootLogin/kengrabber">KenGrabber</a> created by <a href="http://rootlogin.ch">rootLogin</a>.</small>
+                    </p>
+                </div>
             </div>
         </div>
     </footer>
@@ -73,6 +80,18 @@
             </p>
         </div>
         <div class="row">
+            <div class="col-md-12">
+                <p class="text-center">
+                    <pagination
+                            ng-model="currentPage"
+                            total-items="channel.tracks.length"
+                            max-size="maxSize"
+                            boundary-links="true">
+                    </pagination>
+                </p>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="track in filteredTracks">
                 <div class="panel panel-default" >
                     <div class="panel-heading">
@@ -90,12 +109,14 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <pagination
-                        ng-model="currentPage"
-                        total-items="channel.tracks.length"
-                        max-size="maxSize"
-                        boundary-links="true">
-                </pagination>
+                <p class="text-center">
+                    <pagination
+                            ng-model="currentPage"
+                            total-items="channel.tracks.length"
+                            max-size="maxSize"
+                            boundary-links="true">
+                    </pagination>
+                </p>
             </div>
         </div>
     </script>
