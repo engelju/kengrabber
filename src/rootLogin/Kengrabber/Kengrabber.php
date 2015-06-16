@@ -20,7 +20,7 @@ use Cilex\Application;
 use Cilex\Provider\ConfigServiceProvider;
 use Cilex\Provider\DoctrineServiceProvider;
 use Cilex\Provider\MonologServiceProvider;
-use Cilex\Provider\TwigServiceProvider;
+use Monolog\Logger;
 use rootLogin\Kengrabber\Command\BuildCommand;
 use rootLogin\Kengrabber\Command\CleanUpCommand;
 use rootLogin\Kengrabber\Command\ConfigureCommand;
@@ -84,6 +84,7 @@ class Kengrabber extends Application {
         if($path === false || !is_dir($path)) {
             mkdir($this['web_dir'], 0777);
             mkdir($this['web_dir'] . "/media", 0777);
+            mkdir($this['web_dir'] . "/res", 0777);
         }
 
     }
@@ -133,6 +134,58 @@ class Kengrabber extends Application {
     {
         $this->register(new MonologServiceProvider(), array(
             'monolog.logfile' => $this['app_root'] . '/kengrabber.log',
+            'monolog.level' => $this['debug'] ? Logger::DEBUG : Logger::WARNING,
+            'monolog.name' => 'kengrabber'
         ));
+
+        $this->setErrorHandler($this['monolog']);
+    }
+
+    protected function setErrorHandler(Logger $logger)
+    {
+        set_error_handler(function($errno, $errstr, $errfile, $errline, array $errcontext) use ($logger)
+        {
+            $level = Logger::DEBUG;
+            $message = 'PHP Warning: ';
+            switch ($errno) {
+                case E_STRICT:
+                    $level = Logger::NOTICE;
+                    $message .= 'E_STRICT';
+                    break;
+                case E_DEPRECATED:
+                    $level = Logger::NOTICE;
+                    $message .= 'E_DEPRECATED';
+                    break;
+                case E_USER_DEPRECATED:
+                    $level = Logger::NOTICE;
+                    $message .= 'E_USER_DEPRECATED';
+                    break;
+                case E_NOTICE:
+                    $level = Logger::NOTICE;
+                    $message .= 'E_NOTICE';
+                    break;
+                case E_WARNING:
+                    $level = Logger::WARNING;
+                    $message .= 'E_WARNING';
+                    break;
+                case E_ERROR:
+                    $level = Logger::ERROR;
+                    $message .= 'E_ERROR';
+                    break;
+                default:
+                    $message .= sprintf('Unknown error level, code of %d passed', $errno);
+            }
+            $message .= sprintf(
+                '. Error message was "%s" in file %s at line %d.',
+                $errstr,
+                $errfile,
+                $errline
+            );
+
+            $logger->addRecord($level, $message);
+
+            return false;
+        });
+
     }
 }

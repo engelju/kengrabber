@@ -41,7 +41,6 @@ foreach($_SERVER['argv'] as $key => $value) {
     }
 }
 
-
 $values['debug'] = isset($debug) ? $debug : false;
 $values['env'] = isset($env) ? $env : 'prod';
 
