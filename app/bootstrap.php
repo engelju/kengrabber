@@ -41,6 +41,11 @@ foreach($_SERVER['argv'] as $key => $value) {
     }
 }
 
+// enable all errors with debug == true
+if($debug) {
+    error_reporting(E_ALL);
+}
+
 $values['debug'] = isset($debug) ? $debug : false;
 $values['env'] = isset($env) ? $env : 'prod';
 
