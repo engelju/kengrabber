@@ -48,10 +48,14 @@ class DownloadVideoListCommand extends Command
         $kg['monolog']->addInfo("START Downloading videos");
 
         $videos = $kg['video']->getVideos();
+        $len = count($videos);
+        $i = 1;
         foreach($videos as $video) {
+            $output->write("[$i/$len] ");
             /** @var Video $video */
             $downloadWorker = new DownloadWorker($kg['app_dir'],$kg['web_dir'],$kg['monolog'],$output,$kg['video'],$video);
             $downloadWorker->run();
+            $i++;
         }
 
         $output->writeln("Finished with downloading videos...");

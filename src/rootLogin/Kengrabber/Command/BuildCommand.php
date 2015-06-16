@@ -49,12 +49,12 @@ class BuildCommand extends Command
             "verify",
             "render"
         );
-
+        
         foreach($commands as $command) {
             $builder = new ProcessBuilder(
                 array(
                     "php",
-                    "kengrabber.phar",
+                    $_SERVER["SCRIPT_FILENAME"],
                     $command
                 )
             );
@@ -66,9 +66,9 @@ class BuildCommand extends Command
             $process->setTimeout(0);
             $process->run(function($type, $buffer) use ($kg, $output) {
                 if (Process::ERR === $type) {
-                    $output->writeln("<error>$buffer</error>");
+                    $output->write("<error>$buffer</error>");
                 } else {
-                    $output->writeln($buffer);
+                    $output->write($buffer);
                 }
             });
         }
