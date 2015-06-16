@@ -135,7 +135,7 @@ class RenderCommand extends Command
             $v = new \stdClass();
             $v->title = $video->getTitle();
             $desc = $v->description = $video->getDescription();
-            $v->descriptionHtml = $this->utf8ize($video->generateHtml($desc));
+            $v->descriptionHtml = $this->utf8ize($this->generateHtml($desc));
             $v->url = "media/" . $video->getId() . ".mp3";
             $v->size = filesize($this->kg['web_dir'] . "/media/" . $video->getId() . ".mp3");
             $v->youtubeUrl = $this->utf8ize("https://www.youtube.com/watch?v=" . $video->getId());
