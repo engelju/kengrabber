@@ -28,12 +28,13 @@ use rootLogin\Kengrabber\Command\DownloadVideoListCommand;
 use rootLogin\Kengrabber\Command\GrabVideoListCommand;
 use rootLogin\Kengrabber\Command\RenderCommand;
 use rootLogin\Kengrabber\Command\VerifyCommand;
+use rootLogin\Kengrabber\Command\VersionCommand;
 use rootLogin\Kengrabber\Logger\MonologSQLLogger;
 use rootLogin\Kengrabber\Provider\WrapperProvider;
 
 class Kengrabber extends Application {
 
-    const VERSION = "0.5";
+    const VERSION = "@package_version@";
 
     public function __construct($values = array())
     {
@@ -98,6 +99,7 @@ class Kengrabber extends Application {
         $this->command(new VerifyCommand());
         $this->command(new BuildCommand());
         $this->command(new ConfigureCommand());
+        $this->command(new VersionCommand());
     }
 
     private function initDatabase()
