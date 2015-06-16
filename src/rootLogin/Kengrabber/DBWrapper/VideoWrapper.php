@@ -108,12 +108,12 @@ class VideoWrapper {
             $stmt = $this->db->prepare("UPDATE videos SET title = :title, description = :desc, published = :published, downloaded = :downloaded WHERE id IS :id");
         }
 
-        $stmt->bindParam("id", $this->utf8ize($video->getId()), \PDO::PARAM_STR);
-        $stmt->bindParam("title", $this->utf8ize($video->getTitle()), \PDO::PARAM_STR);
-        $stmt->bindParam("desc", $this->utf8ize($video->getDescription()), \PDO::PARAM_STR);
-        $stmt->bindParam("published", $video->getPublished()->format("Y-m-d H:i:s"), \PDO::PARAM_STR);
+        $stmt->bindValue("id", $this->utf8ize($video->getId()), \PDO::PARAM_STR);
+        $stmt->bindValue("title", $this->utf8ize($video->getTitle()), \PDO::PARAM_STR);
+        $stmt->bindValue("desc", $this->utf8ize($video->getDescription()), \PDO::PARAM_STR);
+        $stmt->bindValue("published", $video->getPublished()->format("Y-m-d H:i:s"), \PDO::PARAM_STR);
         $downloaded = ($video->getDownloaded() == true ? 1 : 0);
-        $stmt->bindParam("downloaded", $downloaded, \PDO::PARAM_INT);
+        $stmt->bindValue("downloaded", $downloaded, \PDO::PARAM_INT);
         $stmt->execute();
     }
 

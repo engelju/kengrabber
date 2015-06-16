@@ -135,10 +135,10 @@ class RenderCommand extends Command
             $v = new \stdClass();
             $v->title = $video->getTitle();
             $desc = $v->description = $video->getDescription();
-            $v->descriptionHtml = $this->generateHtml($desc);
+            $v->descriptionHtml = $this->utf8ize($video->generateHtml($desc));
             $v->url = "media/" . $video->getId() . ".mp3";
             $v->size = filesize($this->kg['web_dir'] . "/media/" . $video->getId() . ".mp3");
-            $v->youtubeUrl = "https://www.youtube.com/watch?v=" . $video->getId();
+            $v->youtubeUrl = $this->utf8ize("https://www.youtube.com/watch?v=" . $video->getId());
             $v->published = $video->getPublished()->getTimestamp();
             $channel->tracks[] = $v;
         }
@@ -164,5 +164,10 @@ class RenderCommand extends Command
 
     protected function makeClickableLinks($s) {
         return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1">$1</a>', $s);
+    }
+
+    protected function utf8ize($s)
+    {
+        return mb_convert_encoding($s, "UTF-8", "auto");
     }
 }
