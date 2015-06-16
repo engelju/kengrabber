@@ -46,14 +46,7 @@ class VideoWrapper {
 
         $videos = array();
         foreach($results as $res) {
-            $video = new Video();
-            $video->setId($this->utf8ize($res['id']));
-            $video->setTitle($this->utf8ize($res['title']));
-            $video->setDescription($this->utf8ize($res['description']));
-            $video->setPublished(new \DateTime($res['published']));
-            $video->setDownloaded((bool) $res['downloaded']);
-
-            $videos[] = $video;
+            $videos[] = $this->resultToVideo($res);;
         }
 
         return $videos;
@@ -67,14 +60,7 @@ class VideoWrapper {
 
         $videos = array();
         foreach($results as $res) {
-            $video = new Video();
-            $video->setId($this->utf8ize($res['id']));
-            $video->setTitle($this->utf8ize($res['title']));
-            $video->setDescription($this->utf8ize($res['description']));
-            $video->setPublished(new \DateTime($res['published']));
-            $video->setDownloaded((bool) $res['downloaded']);
-
-            $videos[] = $video;
+            $videos[] = $this->resultToVideo($res);;
         }
 
         return $videos;
@@ -87,13 +73,7 @@ class VideoWrapper {
         $stmt->execute();
 
         if($res = $stmt->fetch()) {
-            $video = new Video();
-            $video->setId($this->utf8ize($res['id']));
-            $video->setTitle($this->utf8ize($res['title']));
-            $video->setDescription($this->utf8ize($res['description']));
-            $video->setPublished(new \DateTime($res['published']));
-            $video->setDownloaded((bool) $res['downloaded']);
-            return $video;
+            return $this->resultToVideo($res);
         }
 
         return null;
@@ -108,9 +88,9 @@ class VideoWrapper {
             $stmt = $this->db->prepare("UPDATE videos SET title = :title, description = :desc, published = :published, downloaded = :downloaded WHERE id IS :id");
         }
 
-        $stmt->bindValue("id", $this->utf8ize($video->getId()), \PDO::PARAM_STR);
-        $stmt->bindValue("title", $this->utf8ize($video->getTitle()), \PDO::PARAM_STR);
-        $stmt->bindValue("desc", $this->utf8ize($video->getDescription()), \PDO::PARAM_STR);
+        $stmt->bindValue("id", $video->getId(), \PDO::PARAM_STR);
+        $stmt->bindValue("title", $video->getTitle(), \PDO::PARAM_STR);
+        $stmt->bindValue("desc", $video->getDescription(), \PDO::PARAM_STR);
         $stmt->bindValue("published", $video->getPublished()->format("Y-m-d H:i:s"), \PDO::PARAM_STR);
         $downloaded = ($video->getDownloaded() == true ? 1 : 0);
         $stmt->bindValue("downloaded", $downloaded, \PDO::PARAM_INT);
@@ -125,8 +105,15 @@ class VideoWrapper {
         $this->db->commit();
     }
 
-    protected function utf8ize($s)
+    protected function resultToVideo($res)
     {
-        return mb_convert_encoding($s, "UTF-8", "auto");
+        $video = new Video();
+        $video->setId($res['id']);
+        $video->setTitle($res['title']);
+        $video->setDescription($res['description']);
+        $video->setPublished(new \DateTime($res['published']));
+        $video->setDownloaded((bool) $res['downloaded']);
+
+        return $video;
     }
 }

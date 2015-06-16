@@ -52,10 +52,13 @@ class Video {
 
     /**
      * @param string $id
+     * @return $this
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = $this->utf8ize($id);
+
+        return $this;
     }
 
     /**
@@ -68,10 +71,13 @@ class Video {
 
     /**
      * @param string $description
+     * @return $this
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = $this->utf8ize($description);
+
+        return $this;
     }
 
     /**
@@ -84,10 +90,13 @@ class Video {
 
     /**
      * @param string $title
+     * @return $this
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = $this->utf8ize($title);
+
+        return $this;
     }
 
     /**
@@ -100,10 +109,13 @@ class Video {
 
     /**
      * @param \DateTime $published
+     * @return $this
      */
     public function setPublished(\DateTime $published)
     {
         $this->published = $published;
+
+        return $this;
     }
 
     /**
@@ -116,9 +128,18 @@ class Video {
 
     /**
      * @param boolean $downloaded
+     * @return $this
      */
     public function setDownloaded($downloaded)
     {
-        $this->downloaded = $downloaded;
+        $this->downloaded = (bool) $downloaded;
+
+        return $this;
+    }
+
+    protected function utf8ize($s)
+    {
+        return $s;
+        return mb_convert_encoding($s, "UTF-8", "auto");
     }
 }

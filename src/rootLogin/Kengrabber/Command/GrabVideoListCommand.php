@@ -44,8 +44,8 @@ class GrabVideoListCommand extends Command
         $channel = $yt->getChannelByName($kg['config']['youtube_channel_username']);
 
         // Setting channel data...
-        $kg['option']->setOption('channel.title', utf8_encode($channel->snippet->title));
-        $kg['option']->setOption('channel.description', utf8_encode($channel->snippet->description));
+        $kg['option']->setOption('channel.title', $channel->snippet->title);
+        $kg['option']->setOption('channel.description', $channel->snippet->description);
 
         $params = array(
             'type' => 'video',
@@ -72,8 +72,8 @@ class GrabVideoListCommand extends Command
                             $video = new Video();
                             $video->setId($vid->id);
                         }
-                        $video->setTitle(utf8_encode($vid->snippet->title));
-                        $video->setDescription(utf8_encode($vid->snippet->description));
+                        $video->setTitle($vid->snippet->title);
+                        $video->setDescription($vid->snippet->description);
                         $video->setPublished(new \DateTime($vid->snippet->publishedAt));
 
                         $kg['video']->saveVideo($video);

@@ -12,6 +12,37 @@
  * You should have received a copy of the GNU General Public License along with kg.
  * If not, see http://www.gnu.org/licenses/.
  */
+
+// Taken from stackoverflow: http://stackoverflow.com/a/7123542
+if(!String.linkify) {
+    String.prototype.linkify = function() {
+
+        // http://, https://, ftp://
+        var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+
+        // www. sans http:// or https://
+        var pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+
+        // Email addresses
+        var emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+
+        return this
+            .replace(urlPattern, '<a href="$&">$&</a>')
+            .replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
+            .replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
+    };
+}
+
+if(!String.htmlify) {
+    String.prototype.htmlify = function() {
+
+        var str = this.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2');
+        str = str.linkify();
+
+        return str;
+    }
+}
+
 (function($,angular) {
     'use strict';
 
@@ -69,10 +100,13 @@
             return{
                 get: function(callback){
                     $http.get('res/channel.json').success(function(data) {
+                        data.descriptionHtml = data.description.htmlify();
+
                         $.each(data.tracks, function(index, track) {
                             // add some variables
                             track.index = index;
                             track.descriptionShort = splitString(track.description, 200) + "...";
+                            track.descriptionHtml = track.description.htmlify();
                             track.published = new Date(track.published * 1000);
                         });
 
@@ -132,7 +166,6 @@
             var track = channel.tracks[trackId];
             $scope.track = track;
             $scope.audio = ngAudio.load(track.url);
-            console.debug($scope.audio);
         }
     ]);
 

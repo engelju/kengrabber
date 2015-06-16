@@ -127,18 +127,17 @@ class RenderCommand extends Command
         $channel = new \stdClass();
         $channel->title = $this->kg['option']->getOption("channel.title");
         $desc = $channel->description = $this->kg['option']->getOption("channel.description");
-        $channel->descriptionHtml = $this->generateHtml($desc);
+        //$channel->descriptionHtml = $this->generateHtml($desc);
         $channel->tracks = array();
 
         foreach($this->kg['video']->getDownloadedVideos() as $video) {
             /** @var Video $video */
             $v = new \stdClass();
             $v->title = $video->getTitle();
-            $desc = $v->description = $video->getDescription();
-            $v->descriptionHtml = $this->utf8ize($this->generateHtml($desc));
+            $v->description = $video->getDescription();
             $v->url = "media/" . $video->getId() . ".mp3";
             $v->size = filesize($this->kg['web_dir'] . "/media/" . $video->getId() . ".mp3");
-            $v->youtubeUrl = $this->utf8ize("https://www.youtube.com/watch?v=" . $video->getId());
+            $v->youtubeUrl = "https://www.youtube.com/watch?v=" . $video->getId();
             $v->published = $video->getPublished()->getTimestamp();
             $channel->tracks[] = $v;
         }
@@ -154,20 +153,5 @@ class RenderCommand extends Command
         file_put_contents($jsonPath, $json, LOCK_EX);
 
         $this->kg['monolog']->addDebug(sprintf("Rendered %s", $jsonPath));
-    }
-
-    protected function generateHtml($s) {
-        $s = $this->makeClickableLinks($s);
-        $s = str_replace("\n","<br>",$s);
-        return $s;
-    }
-
-    protected function makeClickableLinks($s) {
-        return preg_replace('@(https?://([-\w\.]+[-\w])+(:\d+)?(/([\w/_\.#-]*(\?\S+)?[^\.\s])?)?)@', '<a href="$1">$1</a>', $s);
-    }
-
-    protected function utf8ize($s)
-    {
-        return mb_convert_encoding($s, "UTF-8", "auto");
     }
 }
