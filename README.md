@@ -29,6 +29,8 @@ youtube_queries: array [Things you want to grab on this page (in wizard semikolo
 web_url: string [url where you kengrabber instance is available]
 ```
 
+To get an API-key, follow this guide: https://developers.google.com/youtube/android/player/register and choose Server-Key when asked.
+
 ### 3.2. Exposing kengrabber to the web
 Kengrabber automatically creates a directory ```web```. You only need to put this under a domain and it should be available.
 
